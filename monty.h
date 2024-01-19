@@ -5,10 +5,10 @@
 #include <stdio.h>
 
 /**
-* struct stack_s - doubly linked list representation
+* struct stack_s - doubly linked list representation of a stack (or queue)
 * @n: integer
-* @prev: points to the previous element of the stack
-* @next: points to the next element of the stack
+* @prev: points to the previous element of the stack (or queue)
+* @next: points to the next element of the stack (or queue)
 *
 * Description: doubly linked list node structure
 * for stack, queues, LIFO, FIFO
@@ -25,7 +25,8 @@ struct stack_s *next;
 * @opcode: the opcode
 * @f: function to handle the opcode
 *
-* Description: opcode for stack, queues, LIFO, FIFO
+* Description: opcode and its function
+* for stack, queues, LIFO, FIFO
 */
 typedef struct instruction_s
 {

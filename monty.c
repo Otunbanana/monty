@@ -1,11 +1,10 @@
 #include "monty.h"
-
+stack_t *head = NULL;
 /**
-* main - Entry point for the Monty interpreter
-* @argc: Number of command-line arguments
-* @argv: Array of command-line arguments
-*
-* Return: EXIT_SUCCESS or EXIT_FAILURE
+* main - entry point
+* @argc: arguments count
+* @argv: list of arguments
+* Return: always 0
 */
 int main(int argc, char *argv[])
 {
@@ -15,38 +14,69 @@ fprintf(stderr, "USAGE: monty file\n");
 exit(EXIT_FAILURE);
 }
 
-stack_t *stack = NULL;
+open_file(argv[1]);
+free_nodes();
 
-execute_file(argv[1], &stack);
-
-return (EXIT_SUCCESS);
+return (0);
 }
 
 /**
-* execute_file - Execute Monty
-* @filename: Name of the file
-* @stack: Pointer to the stack
-*
-* Return: None
+* allocate_node - Creates a node.
+* @n: Number to go inside the node.
+* Return: pointer to the node if successful. Otherwise NULL.
 */
-void execute_file(char *filename, stack_t **stack)
+stack_t *allocate_node(int n)
 {
-FILE *file = fopen(filename, "r");
-if (!file)
+stack_t *node = malloc(sizeof(stack_t));
+
+if (node == NULL)
 {
-fprintf(stderr, "Error: Can't open file %s\n", filename);
+error(4);
+return (NULL);
+}
+
+node->next = NULL;
+node->prev = NULL;
+node->n = n;
+
+return (node);
+}
+
+/**
+* free_nodes - Frees nodes.
+*/
+void free_nodes(void)
+{
+while (head != NULL)
+{
+stack_t *tmp = head;
+head = head->next;
+free(tmp);
+}
+}
+
+/**
+* append_to_queue - Adds a node to the queue.
+* @new_node: Pointer to the new node.
+* @ln: line number of the opcode.
+*/
+void append_to_queue(stack_t **new_node, __attribute__((unused)) unsigned int ln)
+{
+stack_t *tail;
+
+if (new_node == NULL || *new_node == NULL)
 exit(EXIT_FAILURE);
-}
 
-char *line = NULL;
-size_t len = 0;
-unsigned int line_number = 0;
-
-while (getline(&line, &len, file) != -1)
+if (head == NULL)
 {
-line_number++;
+head = *new_node;
+return;
 }
 
-fclose(file);
-free(line);
+tail = head;
+while (tail->next != NULL)
+tail = tail->next;
+
+tail->next = *new_node;
+(*new_node)->prev = tail;
 }

@@ -1,59 +1,41 @@
 #include "monty.h"
 
 /**
-* push - Push an element the stack
-* @stack: Pointer to the stack
-* @line_number: Line number in the Monty bytecode file
-*
-* Return: None
+* mul_top_nodes -  multiply the top two elements of the stack.
+* @stack_head: Pointer to the top node of the stack.
+* @line_number: the line number of the opcode.
 */
-void push(stack_t **stack, unsigned int line_number)
+void mul_top_nodes(stack_t **stack_head, unsigned int line_number)
 {
-char *token;
-int value;
+int multiply;
 
-token = strtok(NULL, " \t\n");
-if (!token || !isdigit(*token))
-{
-fprintf(stderr, "L%d: usage: push integer\n", line_number);
-exit(EXIT_FAILURE);
-}
+if (stack_head == NULL || *stack_head == NULL || (*stack_head)->next == NULL)
+more_error(8, line_number, "mul");
 
-value = atoi(token);
-
-stack_t *new_node = malloc(sizeof(stack_t));
-if (!new_node)
-{
-fprintf(stderr, "Error: malloc failed\n");
-exit(EXIT_FAILURE);
-}
-
-new_node->n = value;
-new_node->prev = NULL;
-new_node->next = *stack;
-
-if (*stack)
-{
-(*stack)->prev = new_node;
-}
-
-*stack = new_node;
+(*stack_head) = (*stack_head)->next;
+multiply = (*stack_head)->n * (*stack_head)->prev->n;
+(*stack_head)->n = multiply;
+free((*stack_head)->prev);
+(*stack_head)->prev = NULL;
 }
 
 /**
-* pull - Print all values on the stack
-* @stack: Pointer to the stack
-* @line_number: Line number in the Monty bytecode file
-*
-* Return: None
+* mod_top_nodes - cal modulo of the top two elements of the stack.
+* @stack_head: Pointer to the top node of the stack.
+* @line_number: line number of the opcode.
 */
-void pall(stack_t **stack, unsigned int line_number)
+void mod_top_nodes(stack_t **stack_head, unsigned int line_number)
 {
-stack_t *current = *stack;
+int modulo;
 
-while (current)
-{
-printf("%d\n", current->n);
-current = current->next;
-}
+if (stack_head == NULL || *stack_head == NULL || (*stack_head)->next == NULL)
+more_error(8, line_number, "mod");
+
+if ((*stack_head)->n == 0)
+more_error(9, line_number);
+(*stack_head) = (*stack_head)->next;
+modulo = (*stack_head)->n % (*stack_head)->prev->n;
+(*stack_head)->n = modulo;
+free((*stack_head)->prev);
+(*stack_head)->prev = NULL;
 }

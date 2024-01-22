@@ -1,5 +1,4 @@
 #include "monty.h"
-
 /**
 * push_to_stack - push a node to the stack.
 * @new_node: Pointer to the new node.
@@ -9,7 +8,6 @@ void push_to_stack(stack_t **new_node,
 __attribute__((unused)) unsigned int line_num)
 {
 stack_t *tmp;
-
 if (new_node == NULL || *new_node == NULL)
 exit(EXIT_FAILURE);
 if (head == NULL)
@@ -31,7 +29,6 @@ tmp->prev = head;
 void print_stack(stack_t **stack_head, unsigned int line_number)
 {
 stack_t *tmp;
-
 (void)line_number;
 if (stack_head == NULL)
 exit(EXIT_FAILURE);
@@ -51,7 +48,6 @@ tmp = tmp->next;
 void pop_top_node(stack_t **stack_head, unsigned int line_number)
 {
 stack_t *tmp;
-
 if (stack_head == NULL || *stack_head == NULL)
 more_error(7, line_number);
 

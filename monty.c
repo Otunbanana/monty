@@ -1,5 +1,4 @@
 #include "monty.h"
-stack_t *head = NULL;
 /**
 * main - entry point
 * @argc: arguments count
@@ -8,6 +7,7 @@ stack_t *head = NULL;
 */
 int main(int argc, char *argv[])
 {
+stack_t *head = NULL;
 if (argc != 2)
 {
 fprintf(stderr, "USAGE: monty file\n");
@@ -60,7 +60,8 @@ free(tmp);
 * @new_node: Pointer to the new node.
 * @ln: line number of the opcode.
 */
-void append_to_queue(stack_t **new_node, __attribute__((unused)) unsigned int ln)
+void append_to_queue(stack_t **new_node,
+__attribute__((unused)) unsigned int ln)
 {
 stack_t *tail;
 
